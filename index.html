@@ -1,403 +1,227 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👑 ગુજરાતી Trader 👑 - Live Trading Signals</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            background: #ffffff;
-            color: #333; 
-            min-height: 100vh; 
-            padding: 15px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-        }
-        .container {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 35px 25px;
-            max-width: 360px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-            border: 1px solid #e5e5e5;
-        }
-        
-        .logo-section { margin-bottom: 20px; }
-        .custom-logo {
-            width: 110px; height: 110px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: block;
-            object-fit: cover;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
-            border: 4px solid rgba(255,0,64,0.3);
-        }
-        
-        .trader-name {
-            font-size: 24px; font-weight: 800;
-            background: linear-gradient(45deg, #ff0040, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-        .tagline { font-size: 14px; color: #666; font-weight: 500; margin-bottom: 20px; }
-        
-        .stats-section {
-            background: linear-gradient(135deg, #ff0040, #00d4ff);
-            border-radius: 15px;
-            padding: 25px 15px;
-            margin: 20px 0;
-            color: white;
-            box-shadow: 0 10px 30px rgba(255,0,64,0.3);
-            position: relative;
-        }
-        .total-profit {
-            font-size: 22px; font-weight: 900;
-            background: linear-gradient(45deg, #00ff88, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-        }
-        
-        .live-candles {
-            height: 70px;
-            position: relative;
-            margin: 15px 0;
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            padding: 10px 0;
-            background: rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .candle-unit {
-            flex: 1;
-            height: 100%;
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-        }
-        .candle-body {
-            width: 100%;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-            transform-origin: bottom center;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-        .candle.green { 
-            background: linear-gradient(180deg, #00ff88, #00cc66); 
-            box-shadow: 0 4px 15px rgba(0,255,136,0.6);
-        }
-        .candle.red { 
-            background: linear-gradient(180deg, #ff4444, #cc3333); 
-            box-shadow: 0 4px 15px rgba(255,68,68,0.6);
-        }
-        .candle-wick {
-            position: absolute;
-            top: -5px; left: 50%;
-            transform: translateX(-50%);
-            width: 1px; height: 8px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 1px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-        
-        .profits-scroll {
-            height: 40px;
-            overflow: hidden;
-            margin: 12px 0;
-            background: rgba(255,255,255,0.15);
-            border-radius: 20px;
-            padding: 8px;
-            backdrop-filter: blur(10px);
-        }
-        .profits-list {
-            display: flex;
-            animation: scrollProfits 25s linear infinite;
-            gap: 20px;
-        }
-        .profit-item {
-            font-size: 12px;
-            font-weight: 700;
-            white-space: nowrap;
-            padding: 6px 12px;
-            border-radius: 15px;
-            background: rgba(255,255,255,0.25);
-            backdrop-filter: blur(5px);
-        }
-        .profit-name { color: #fff; }
-        .profit-amount {
-            color: #00ff88;
-            font-weight: 900;
-            text-shadow: 0 0 8px rgba(0,255,136,0.6);
-            margin-left: 6px;
-        }
-        @keyframes scrollProfits {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        .features-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 12px; margin: 25px 0;
-        }
-        .feature-card {
-            background: linear-gradient(135deg, rgba(255,0,64,0.1), rgba(0,212,255,0.1));
-            padding: 15px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            border-left: 3px solid #ff0040;
-            transition: all 0.3s;
-            text-align: left;
-            backdrop-filter: blur(10px);
-        }
-        .feature-card:nth-child(2n) { border-left-color: #00d4ff; }
-        .feature-icon { width: 20px; height: 20px; margin-right: 8px; display: inline-block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-        
-        .join-telegram {
-            background: linear-gradient(45deg, #ff0040, #00d4ff, #00ff88);
-            background-size: 300% 300%;
-            color: white; padding: 18px 25px;
-            font-size: 15px; font-weight: 700;
-            border: none; border-radius: 50px;
-            cursor: pointer; width: 100%;
-            margin: 25px 0 20px 0; 
-            box-shadow: 0 10px 30px rgba(255,0,64,0.4);
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            animation: gradientShift 3s ease infinite;
-            display: flex; align-items: center; justify-content: center;
-            gap: 12px; height: 55px;
-            position: relative;
-            overflow: hidden;
-        }
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .telegram-icon { width: 22px; height: 22px; flex-shrink: 0; }
-        
-        .rating-section {
-            background: linear-gradient(135deg, rgba(255,0,64,0.1), rgba(0,212,255,0.1));
-            padding: 15px; border-radius: 12px;
-            margin-top: 20px;
-            border: 1px solid rgba(255,0,64,0.2);
-        }
-        .stars { color: #ff0040; font-size: 18px; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255,0,64,0.5); }
-        .rating-text { font-size: 13px; color: #555; }
-        .disclaimer { font-size: 11px; color: #777; margin-top: 20px; line-height: 1.5; text-align: center; padding-top: 15px; border-top: 1px solid #eee; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Gujarati Trader</title>
 
-        .button-loading, .button-success {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.95);
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50px; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s; z-index: 10;
-        }
-        .button-loading.show, .button-success.show { opacity: 1; pointer-events: all; }
-        .spinner {
-            width: 20px; height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top: 2px solid white; border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        .success-check { color: #00ff88; font-size: 24px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-    <!-- Meta Pixel with YOUR Pixel ID: 768854716178086 -->
-    <script>
-    !function(f,b,e,v,n,t,s){
-        if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window,document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '768854716178086');
-    fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none" 
-             src="https://www.facebook.com/tr?id=768854716178086&ev=PageView&noscript=1"/>
-    </noscript>
+<!-- META PIXEL -->
+<script>
+!function(f,b,e,v,n,t,s){
+if(f.fbq)return;
+n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];
+t=b.createElement(e);t.async=!0;
+t.src=v;
+s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)
+}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '2157645875064847');
+</script>
+
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2157645875064847&ev=PageView&noscript=1"/>
+</noscript>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#000;
+  color:#fff;
+  text-align:center;
+}
+
+/* HERO */
+.hero{
+  padding:40px 20px 30px;
+}
+
+/* LOGO */
+.hero img{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid rgba(255,255,255,0.2);
+  box-shadow:
+    0 0 20px rgba(255,215,0,0.8),
+    0 0 40px rgba(0,198,255,0.4);
+  margin-bottom:16px;
+}
+
+/* NAME */
+.trader-name{
+  font-size:26px;
+  font-weight:800;
+  margin-bottom:14px;
+  background:linear-gradient(90deg,#00c6ff,#8e2de2,#ff0080);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* CTA */
+.cta{
+  display:inline-block;
+  width:100%;
+  max-width:360px;
+  padding:16px;
+  margin:0 auto 22px;
+  font-size:17px;
+  font-weight:800;
+  border-radius:50px;
+  background:linear-gradient(90deg,#ff0080,#8e2de2,#00c6ff);
+  color:#fff;
+  text-decoration:none;
+  box-shadow:0 10px 30px rgba(0,0,0,.7);
+  transition:.2s ease;
+}
+.cta:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 30px rgba(0,198,255,.9);
+}
+
+/* TITLE */
+.hero h1{
+  font-size:30px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.hero p{
+  font-size:15px;
+  color:#ccc;
+}
+
+/* INFO */
+.info{
+  padding:28px 20px;
+}
+
+.card{
+  background:linear-gradient(180deg,#0f1629,#05070d);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 0 30px rgba(0,255,255,.12);
+}
+
+.point{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  margin:14px 0;
+}
+
+.point i{
+  font-size:18px;
+  color:#00c6ff;
+}
+
+.point span{
+  font-size:15px;
+  text-align:left;
+}
+
+/* FOOTER */
+.footer{
+  padding:20px 10px;
+  font-size:13px;
+  color:#aaa;
+}
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="logo-section">
-            <img src="https://uploads.onecompiler.io/445e5df86/445tc7ue3/330.png" alt="ગુજરાતી Trader" class="custom-logo">
-            <div class="trader-name">👑 ગુજરાતી Trader 👑</div>
-            <div class="tagline">Nifty | Forex | Indian Stock Market Signals</div>
-        </div>
-        
-        <div class="stats-section">
-            <div class="total-profit">₹4.25Cr+ Total Profits</div>
-            <div class="live-candles" id="liveCandles"></div>
-            <div class="profits-scroll">
-                <div class="profits-list">
-                    <span class="profit-item"><span class="profit-name">Ravi Patel</span><span class="profit-amount">+₹2.45L</span></span>
-                    <span class="profit-item"><span class="profit-name">Priya Sharma</span><span class="profit-amount">+₹1.87L</span></span>
-                    <span class="profit-item"><span class="profit-name">Amit Desai</span><span class="profit-amount">+₹3.12L</span></span>
-                    <span class="profit-item"><span class="profit-name">Neha Gupta</span><span class="profit-amount">+₹85K</span></span>
-                    <span class="profit-item"><span class="profit-name">Vijay Singh</span><span class="profit-amount">+₹2.98L</span></span>
-                    <span class="profit-item"><span class="profit-name">Meera Joshi</span><span class="profit-amount">+₹1.65L</span></span>
-                    <span class="profit-item"><span class="profit-name">Kiran Shah</span><span class="profit-amount">+₹4.20L</span></span>
-                    <span class="profit-item"><span class="profit-name">Sonal Ben</span><span class="profit-amount">+₹1.23L</span></span>
-                    <span class="profit-item"><span class="profit-name">Rajesh Parmar</span><span class="profit-amount">+₹2.76L</span></span>
-                    <span class="profit-item"><span class="profit-name">Divya Trivedi</span><span class="profit-amount">+₹95K</span></span>
-                    <span class="profit-item"><span class="profit-name">Mahesh Bhai</span><span class="profit-amount">+₹3.45L</span></span>
-                    <span class="profit-item"><span class="profit-name">Anita Solanki</span><span class="profit-amount">+₹1.98L</span></span>
-                    <span class="profit-item"><span class="profit-name">Nilesh Vyas</span><span class="profit-amount">+₹2.34L</span></span>
-                    <span class="profit-item"><span class="profit-name">Pooja Raval</span><span class="profit-amount">+₹1.67L</span></span>
-                    <span class="profit-item"><span class="profit-name">Arjun Makwana</span><span class="profit-amount">+₹5.12L</span></span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <svg class="feature-icon" viewBox="0 0 24 24" fill="#ff0040">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg> Nifty Chart Analysis
-            </div>
-            <div class="feature-card">
-                <svg class="feature-icon" viewBox="0 0 24 24" fill="#00d4ff">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.22.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2 .9 2 2v5.8c.71.37 1.21 1.1 1.21 1.9v1.2z"/>
-                </svg> Forex Signals
-            </div>
-            <div class="feature-card">
-                <svg class="feature-icon" viewBox="0 0 24 24" fill="#ff0040">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
-                </svg> Stock Strategies
-            </div>
-            <div class="feature-card">
-                <svg class="feature-icon" viewBox="0 0 24 24" fill="#00d4ff">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg> Risk Management
-            </div>
-        </div>
-        
-        <button class="join-telegram" id="joinTelegramBtn">
-            <svg class="telegram-icon" viewBox="0 0 24 24" fill="white">
-                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-            </svg>
-            <span class="button-text">JOIN OUR TELEGRAM</span>
-            <div class="button-loading" id="buttonLoading">
-                <div class="spinner"></div>
-            </div>
-            <div class="button-success" id="buttonSuccess">
-                <div class="success-check">✅</div>
-            </div>
-        </button>
-        
-        <div class="rating-section">
-            <div class="stars">⭐⭐⭐⭐⭐ 5.0</div>
-            <div class="rating-text">આપણી લર્નિંગ કોમ્યુનિટી દ્વારા</div>
-        </div>
-        
-        <div class="disclaimer">
-            શૈક્ષણિક હેતુ માટે જ. કોઈ ટિપ્સ કે ગેરંટી નહીં.<br>
-            પોતાના રિસ્ક પર રોકાણ કરો.
-        </div>
+
+<section class="hero">
+
+  <img src="https://uploads.onecompiler.io/446vwj75z/448zrd6vz/WhatsApp%20Image%202025-12-29%20at%2018.24.42.jpeg"
+       alt="Gujarati Trader Logo">
+
+  <div class="trader-name">
+    💎 ગુજરાતી 𝐓𝐑𝐀𝐃𝐄𝐑 💎
+  </div>
+
+  <!-- TELEGRAM JOIN BUTTON -->
+  <a href="https://t.me/+scgN9Z-SuDsyNTg9"
+     target="_blank"
+     class="cta subscribe-btn">
+    <i class="fab fa-telegram-plane"></i> 𝐉𝐎𝐈𝐍 𝐎𝐔𝐑 𝐓𝐄𝐋𝐄𝐆𝐑𝐀𝐌
+  </a>
+
+  <h1>India’s Most Trusted Stock Market Community</h1>
+  <p>Free Signals • Daily Analysis • Smart Risk Management</p>
+
+</section>
+
+<section class="info">
+  <div class="card">
+
+    <div class="point">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Intraday, Options, NIFTY & BANKNIFTY Calls</span>
     </div>
 
-    <script>
-        // 🚀 Moving Candles Animation (Perfected)
-        let candleIndex = 0;
-        function animateCandles() {
-            const candlesContainer = document.getElementById('liveCandles');
-            const baseHeights = [25, 35, 50, 40, 60, 45, 70, 55, 65, 30];
-            const heights = baseHeights.map((base, i) => {
-                const fluctuation = Math.sin((candleIndex * 0.3) + i * 0.5) * 15;
-                return Math.max(10, Math.min(90, base + fluctuation));
-            });
-            
-            const colors = [];
-            const prevHeights = JSON.parse(candlesContainer.dataset.prevHeights || '[30,30,30,30,30,30,30,30,30,30]');
-            
-            heights.forEach((height, i) => {
-                if (height > prevHeights[i] || height > 55) colors.push('green');
-                else colors.push('red');
-            });
-            
-            candlesContainer.innerHTML = heights.map((height, index) => `
-                <div class="candle-unit">
-                    <div class="candle-body candle ${colors[index]}" style="height: ${height}%">
-                        <div class="candle-wick"></div>
-                    </div>
-                </div>
-            `).join('');
-            
-            candlesContainer.dataset.prevHeights = JSON.stringify(heights);
-            candleIndex++;
-        }
+    <div class="point">
+      <i class="fa-solid fa-bullseye"></i>
+      <span>Accurate Entry, Exit & Target Levels</span>
+    </div>
 
-        // 🎯 PERFECT PIXEL TRACKING - Fires ONLY after Telegram opens + Multiple clicks handled
-        let leadFired = false; // Prevents duplicate leads
-        const joinBtn = document.getElementById('joinTelegramBtn');
-        const loadingEl = document.getElementById('buttonLoading');
-        const successEl = document.getElementById('buttonSuccess');
-        const buttonText = joinBtn.querySelector('.button-text');
+    <div class="point">
+      <i class="fa-solid fa-shield"></i>
+      <span>Risk Management Focused Strategy</span>
+    </div>
 
-        function trackJoin() {
-            if (leadFired) return; // Already fired once
-            
-            // Show loading
-            loadingEl.classList.add('show');
-            buttonText.textContent = 'Opening Telegram...';
-            joinBtn.disabled = true;
-            
-            // Open Telegram in new tab
-            const telegramUrl = 'https://t.me/+mE0qu2TSzdViMDg9';
-            const newWindow = window.open(telegramUrl, '_blank', 'noopener,noreferrer');
-            
-            // Verify window opened & user went to Telegram (best effort)
-            setTimeout(() => {
-                if (newWindow && !newWindow.closed) {
-                    // ✅ PIXEL FIRES ONLY AFTER TELEGRAM OPENS SUCCESSFULLY
-                    fbq('track', 'Lead', {
-                        content_name: 'Telegram Join',
-                        currency: 'INR',
-                        value: 1
-                    });
-                    leadFired = true; // Lock - no more leads from this user
-                    
-                    // Show success
-                    loadingEl.classList.remove('show');
-                    successEl.classList.add('show');
-                    buttonText.textContent = 'Joined Successfully!';
-                    
-                    setTimeout(() => {
-                        successEl.classList.remove('show');
-                        buttonText.textContent = '✅ Joined Telegram!';
-                    }, 2000);
-                } else {
-                    // Fallback if popup blocked
-                    loadingEl.classList.remove('show');
-                    buttonText.textContent = 'JOIN OUR TELEGRAM';
-                    joinBtn.disabled = false;
-                    alert('Please allow popups to join Telegram!');
-                }
-            }, 1500); // Give time for Telegram to load
-        }
+    <div class="point">
+      <i class="fa-solid fa-fire"></i>
+      <span>Daily Free & Premium Market Analysis</span>
+    </div>
 
-        // Attach event listener
-        joinBtn.addEventListener('click', trackJoin);
+  </div>
+</section>
 
-        // Initialize animations
-        animateCandles();
-        setInterval(animateCandles, 800);
-    </script>
+<div class="footer">
+  © 2026 Gujarati Trader • All Rights Reserved
+</div>
+
+<!-- TRACKING SCRIPT -->
+<script>
+const PAGEVIEW_KEY = "gt_pageview_tracked";
+const SUBSCRIBE_KEY = "gt_subscribe_tracked";
+
+/* PAGE VIEW - ONLY ONCE */
+if (!localStorage.getItem(PAGEVIEW_KEY)) {
+    fbq('track', 'PageView');
+    localStorage.setItem(PAGEVIEW_KEY, "true");
+    console.log("✅ PageView tracked");
+}
+
+/* TELEGRAM JOIN - ONLY ONCE */
+document.querySelector(".subscribe-btn").addEventListener("click", function () {
+
+    if (!localStorage.getItem(SUBSCRIBE_KEY)) {
+
+        fbq('track', 'Lead');
+        fbq('trackCustom', 'TelegramSubscribe', {
+            source: 'Landing Page',
+            platform: 'Telegram'
+        });
+
+        localStorage.setItem(SUBSCRIBE_KEY, "true");
+        console.log("✅ Subscribe tracked");
+    }
+});
+</script>
+
 </body>
 </html>
+
